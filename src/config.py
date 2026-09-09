@@ -4,9 +4,7 @@ APP_SUBTITLE = "Machine Learning for Asian Energy Demand and Transition"
 DATA_URL = "https://owid-public.owid.io/data/energy/owid-energy-data.csv"
 DATA_SOURCE_LABEL = "Our World in Data Energy dataset"
 DATA_SOURCE_URL = "https://github.com/owid/energy-data"
-
-# Replace this after you create your GitHub repository.
-GITHUB_URL = "https://github.com/your-username/energy-2030"
+GITHUB_URL = "https://github.com/sharvaripb/energy-2030"
 
 # Venoz-inspired palette from the reference brand kit.
 COLORS = {
