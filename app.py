@@ -63,7 +63,7 @@ if section == "Overview":
             unsafe_allow_html=True,
         )
         st.markdown(
-            '<div class="hero-copy">A cleaned, reproducible version of a university ML project that models primary energy consumption, fossil dominance, country clusters and unusual regional energy patterns.</div>',
+            '<div class="hero-copy">My updated version of a university ML project that models primary energy consumption, fossil dominance, country clusters and unusual regional energy patterns.</div>',
             unsafe_allow_html=True,
         )
     with right:
@@ -81,8 +81,8 @@ if section == "Overview":
     st.markdown('<div class="section-band"></div>', unsafe_allow_html=True)
     section_header(
         "PROJECT SCOPE",
-        "From economic indicators to energy behavior.",
-        "The original coursework investigated GDP, population, energy mix, classification, clustering and anomaly detection. This repository keeps that scope but makes the pipeline reproducible and interactive.",
+        "From economic indicators to energy behaviour.",
+        "Investigated GDP, population, energy mix, classification, clustering and anomaly detection.",
     )
 
     a, b, c = st.columns(3)
@@ -100,7 +100,7 @@ elif section == "Predict":
     section_header(
         "SCENARIO BUILDER",
         "What if?",
-        "Adjust the inputs to create an energy scenario. The prediction updates using the same feature set as the cleaned Random Forest models.",
+        "Adjust the inputs to create an energy scenario. The prediction updates using the same feature set as the Random Forest models.",
     )
 
     latest = latest_complete_rows(energy_df)
@@ -158,7 +158,7 @@ elif section == "Predict":
             "pale_blue",
         )
         st.markdown(
-            '<div class="small-note">Scenario inputs outside the historical training range are extrapolations. Treat them as exploratory model behavior, not policy forecasts.</div>',
+            '<div class="small-note">Scenario inputs outside the historical training range come from exploratory model behaviour, not policy forecasts.</div>',
             unsafe_allow_html=True,
         )
 
@@ -166,7 +166,7 @@ elif section == "Explore":
     section_header(
         "REGIONAL PATTERNS",
         "Energy landscape.",
-        "The latest complete row per country is shown using the project cluster model. Isolation Forest flags observations that differ from the regional pattern.",
+        "The latest row per country is shown using the project cluster model. Isolation Forest flags observations that differ from the regional pattern.",
     )
     st.plotly_chart(cluster_map(bundle.modeled_data), use_container_width=True)
 
@@ -185,7 +185,7 @@ elif section == "2030":
     section_header(
         "TREND PROJECTION",
         "Asia in 2030.",
-        "Choose a country to extend its recent feature trends to 2030. The projected inputs are then passed through the fossil dominance classifier. This is a transparent trend scenario, not a macroeconomic forecast.",
+        "Choose a country to extend its recent feature trends to 2030. The projected inputs are then passed through the fossil dominance classifier to get the trend scenario",
     )
 
     countries = sorted(energy_df["country"].dropna().unique().tolist())
@@ -228,7 +228,7 @@ elif section == "Model":
     section_header(
         "UNDER THE HOOD",
         "Model evidence.",
-        "The app retrains on the current public OWID Energy dataset so the result is reproducible instead of depending on a local notebook path or a saved classroom output.",
+        "The app retrains on the current public OWID Energy dataset so that the result is reproducible instead of depending on a local path.",
     )
 
     m1, m2 = st.columns(2)
