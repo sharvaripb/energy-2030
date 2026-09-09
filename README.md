@@ -1,8 +1,8 @@
-# ENERGY / 2030
+# ENERGY 2030
 
-A cleaned and reproducible version of a university machine learning project exploring Asian energy demand and transition patterns.
+Built as a university machine learning project (MS0003 NTU) exploring Asian energy demand and transition patterns.
 
-The live Streamlit app is designed as a compact portfolio piece rather than a classroom dashboard. It uses a Venoz-inspired color system, a restrained editorial layout and one original hero graphic.
+The Streamlit app is designed using a Venoz-inspired colour kit (https://dribbble.com/shots/25552722), a restrained editorial layout and hero graphics.
 
 ## What the project does
 
@@ -12,7 +12,7 @@ The live Streamlit app is designed as a compact portfolio piece rather than a cl
 - Flags unusual regional patterns using Isolation Forest.
 - Builds a transparent 2030 trend projection and passes the projected features through the classifier.
 
-The original coursework reported a regression test R² of approximately 0.954. This repository does not hard-code that result. The app downloads the current Our World in Data Energy dataset and recomputes its own reproducible train/test score.
+The original coursework reported a regression test R² of approximately 0.954. The app downloads the current Our World in Data Energy dataset and recomputes the train/test score in each run.
 
 ## Data
 
@@ -76,26 +76,5 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-## Before publishing
-
-Open `src/config.py` and replace:
-
-```python
-GITHUB_URL = "https://github.com/your-username/energy-2030"
-```
-
-with your real repository URL.
-
-## Resume link
-
-Recommended display text:
-
-**Interactive Demo** | **GitHub**
-
-Suggested project title:
-
-**Energy Demand Prediction and 2030 Transition Modeling**
-
-Suggested bullet:
 
 > Built Random Forest models to predict primary energy consumption from GDP, population and energy-mix indicators, then added clustering, anomaly detection and an interactive 2030 trend scenario for Asian economies.
