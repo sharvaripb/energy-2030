@@ -22,33 +22,6 @@ https://github.com/owid/energy-data
 
 The repository does not redistribute the full OWID dataset. The app downloads the current public CSV at runtime and caches it for 24 hours.
 
-## Project structure
-
-```text
-energy-2030/
-├── app.py
-├── requirements.txt
-├── README.md
-├── DEPLOY.md
-├── .gitignore
-├── .streamlit/
-│   └── config.toml
-├── assets/
-│   ├── hero.svg
-│   └── styles.css
-├── docs/
-│   └── methodology.md
-├── notebooks/
-│   └── energy_analysis_clean.ipynb
-└── src/
-    ├── charts.py
-    ├── config.py
-    ├── data.py
-    ├── modeling.py
-    ├── projections.py
-    └── ui.py
-```
-
 ## Run locally
 
 Use Python 3.12 to match the recommended Streamlit Community Cloud deployment setup.
