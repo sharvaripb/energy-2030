@@ -1,0 +1,216 @@
+:root {
+  --ink: #060706;
+  --cream: #E7E8D2;
+  --purple: #4C46BF;
+  --lime: #9DDC1E;
+  --teal: #2B484D;
+  --red: #FC1102;
+  --bluegrey: #9FB2B4;
+  --paleblue: #A8D2D5;
+}
+
+html, body, [class*="css"] {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+}
+
+.stApp {
+  background: var(--cream);
+}
+
+header[data-testid="stHeader"],
+footer,
+#MainMenu {
+  visibility: hidden;
+}
+
+.block-container {
+  max-width: 1240px;
+  padding-top: 1.4rem;
+  padding-bottom: 5rem;
+}
+
+[data-testid="stDecoration"] { display: none; }
+
+.brand-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--ink);
+  padding: 0.25rem 0 0.9rem 0;
+  margin-bottom: 1.8rem;
+}
+
+.brand-name {
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  font-size: clamp(1.35rem, 3vw, 2.25rem);
+}
+
+.brand-tag {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.hero-kicker, .section-kicker {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 800;
+  margin-bottom: 0.55rem;
+}
+
+.hero-title {
+  font-size: clamp(4rem, 9vw, 8.6rem);
+  font-weight: 950;
+  letter-spacing: -0.09em;
+  line-height: 0.78;
+  margin: 0.25rem 0 1.2rem 0;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  font-weight: 800;
+  line-height: 1.15;
+  max-width: 680px;
+  margin-bottom: 0.7rem;
+}
+
+.hero-copy, .section-copy {
+  font-size: 1rem;
+  line-height: 1.55;
+  max-width: 700px;
+}
+
+.hero-art {
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  overflow: hidden;
+  line-height: 0;
+  background: var(--paleblue);
+}
+
+.stat-card {
+  min-height: 138px;
+  border: 2px solid var(--ink);
+  border-radius: 16px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-value {
+  font-size: clamp(1.8rem, 3vw, 3rem);
+  font-weight: 950;
+  letter-spacing: -0.06em;
+  line-height: 0.95;
+}
+
+.section-band {
+  border-top: 2px solid var(--ink);
+  margin-top: 2rem;
+  padding-top: 2.6rem;
+}
+
+h2 {
+  font-size: clamp(2.8rem, 6vw, 5.2rem) !important;
+  line-height: 0.88 !important;
+  letter-spacing: -0.07em !important;
+  margin-bottom: 0.8rem !important;
+}
+
+h3 {
+  letter-spacing: -0.035em !important;
+}
+
+.result-block {
+  border: 2px solid var(--ink);
+  border-radius: 18px;
+  padding: 1.2rem 1.25rem;
+  min-height: 175px;
+  margin-bottom: 0.85rem;
+}
+
+.result-label {
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.result-value {
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.07em;
+  font-weight: 950;
+  margin: 0.45rem 0;
+}
+
+.result-detail {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+[data-testid="stSlider"] > div > div > div {
+  color: var(--purple);
+}
+
+.stButton > button,
+.stLinkButton > a {
+  border: 2px solid var(--ink) !important;
+  border-radius: 999px !important;
+  background: var(--ink) !important;
+  color: var(--cream) !important;
+  font-weight: 800 !important;
+  padding: 0.6rem 1.15rem !important;
+}
+
+.stButton > button:hover,
+.stLinkButton > a:hover {
+  background: var(--purple) !important;
+  color: white !important;
+  border-color: var(--ink) !important;
+}
+
+[data-testid="stRadio"] > div {
+  gap: 0.45rem;
+}
+
+[data-testid="stRadio"] label {
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.38rem 0.8rem;
+  background: transparent;
+}
+
+[data-testid="stRadio"] label:has(input:checked) {
+  background: var(--purple);
+  color: white;
+}
+
+[data-testid="stMetric"] {
+  background: transparent;
+  border: 0;
+}
+
+[data-testid="stExpander"] {
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+}
+
+.small-note {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  opacity: 0.78;
+}
