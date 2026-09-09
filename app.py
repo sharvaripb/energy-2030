@@ -248,14 +248,6 @@ elif section == "Model":
     with p2:
         st.plotly_chart(feature_importance(bundle.feature_importance), use_container_width=True)
 
-    st.markdown("### Reproducible pipeline")
-    st.code(
-        "OWID data  ->  Asia 2012 to 2024  ->  complete rows  ->  train/test split\n"
-        "          ->  Random Forest regression + classification\n"
-        "          ->  KMeans clustering + Isolation Forest anomaly detection",
-        language="text",
-    )
-
     st.markdown(
         f"Data source: [{DATA_SOURCE_URL}]({DATA_SOURCE_URL}). The original coursework reported a test R² of approximately 0.954. The number shown above is recomputed from the current dataset snapshot each time the cached model is refreshed."
     )
