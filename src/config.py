@@ -38,3 +38,20 @@ MODEL_FEATURES = [
 ]
 TARGET = "primary_energy_consumption"
 FOSSIL_DOMINANT_THRESHOLD = 70.0
+
+# update : fixed models and forecasts so every number is backtested on unseen years and countries
+PROJECTION_YEAR = 2030
+DEMAND_FEATURES = ["log_gdp_pc", "log_population"]
+TRANSITION_DROP_PTS = 3.0
+CLASSIFIER_HORIZON = 5
+CLASSIFIER_FEATURES = [
+    "fossil_share_energy",
+    "fossil_change_5y",
+    "renewables_share_energy",
+    "renewables_change_5y",
+]
+DEMAND_TREND_YEARS = 10
+DEMAND_DAMPING = 0.9
+SHARE_TREND_YEARS = 10
+TRANSITIONING_PACE = -0.5
+RISING_PACE = 0.2

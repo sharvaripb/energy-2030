@@ -1,46 +1,53 @@
 from __future__ import annotations
 
-import numpy as np
 import pandas as pd
 
-from src.config import MODEL_FEATURES
+from src.config import PROJECTION_YEAR, SHARE_TREND_YEARS, TARGET
+from src.forecasting import _series, crossing_year, damped_growth, linear_trend, pace_group, share_slope
+from src.modeling import ModelBundle, transition_probability
 
 
-def _linear_project(group: pd.DataFrame, column: str, target_year: int = 2030) -> float | None:
-    clean = group[["year", column]].dropna().tail(6)
-    if len(clean) < 3:
+# update : fixed 2030 projection to use backtested trends with ranges instead of the classifier
+def build_2030_projection(df: pd.DataFrame, country: str, bundle: ModelBundle) -> dict | None:
+    ey, ev = _series(df, country, TARGET)
+    fy, fv = _series(df, country, "fossil_share_energy")
+    ry, rv = _series(df, country, "renewables_share_energy")
+    if len(ey) < 5 or len(fy) < 5:
         return None
 
-    x = clean["year"].to_numpy(dtype=float)
-    y = clean[column].to_numpy(dtype=float)
-    slope, intercept = np.polyfit(x, y, 1)
-    value = slope * target_year + intercept
-
-    if column in {"fossil_share_energy", "renewables_share_energy"}:
-        value = float(np.clip(value, 0, 100))
-    else:
-        value = float(max(value, 0))
-    return value
-
-
-def build_2030_projection(df: pd.DataFrame, country: str) -> dict[str, float] | None:
-    group = df[df["country"] == country].sort_values("year")
-    if group.empty:
+    energy = damped_growth(ey, ev, PROJECTION_YEAR)
+    fossil = linear_trend(fy, fv, PROJECTION_YEAR, SHARE_TREND_YEARS, 0, 100)
+    renew = linear_trend(ry, rv, PROJECTION_YEAR, SHARE_TREND_YEARS, 0, 100) if len(ry) >= 5 else None
+    if energy is None or fossil is None:
         return None
+    if renew is None:
+        renew = 0.0
+    if fossil + renew > 100:
+        renew = 100 - fossil
 
-    projected: dict[str, float] = {}
-    for feature in MODEL_FEATURES:
-        value = _linear_project(group, feature)
-        if value is None:
-            return None
-        projected[feature] = value
+    slope = share_slope(fy, fv)
+    e_lo, e_hi = bundle.energy_band
+    f_lo, f_hi = bundle.fossil_band
 
-    fossil_share = _linear_project(group, "fossil_share_energy")
-    renewable_share = _linear_project(group, "renewables_share_energy")
-    if fossil_share is None or renewable_share is None:
-        return None
+    latest = df[(df["country"] == country) & (df["year"] == fy[-1])].iloc[0]
+    prob = transition_probability(bundle, latest.to_dict())
 
-    projected["fossil_share_energy"] = fossil_share
-    projected["renewables_share_energy"] = renewable_share
-    projected["other_share_energy"] = max(0.0, 100.0 - fossil_share - renewable_share)
-    return projected
+    return {
+        "energy_latest_year": int(ey[-1]),
+        "energy_latest": float(ev[-1]),
+        "energy_2030": energy,
+        "energy_low": energy / (1 + e_hi),
+        "energy_high": energy / (1 + e_lo),
+        "fossil_latest_year": int(fy[-1]),
+        "fossil_latest": float(fv[-1]),
+        "fossil_share_energy": fossil,
+        "fossil_low": max(0.0, fossil - f_hi),
+        "fossil_high": min(100.0, fossil - f_lo),
+        "fossil_pace": slope,
+        "pace_group": pace_group(slope),
+        "crossing_70": crossing_year(fy[-1], fv[-1], slope),
+        "renewables_share_energy": renew,
+        "other_share_energy": max(0.0, 100.0 - fossil - renew),
+        "transition_probability": prob,
+        "data_is_stale": int(fy[-1]) < int(df["year"].max()) - 2,
+    }

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import numpy as np
 import pandas as pd
 import requests
 import streamlit as st
@@ -30,11 +31,26 @@ def load_energy_data() -> pd.DataFrame:
         raise ValueError(f"OWID dataset is missing required columns: {missing}")
 
     df = raw.loc[
-        raw["country"].isin(ASIAN_COUNTRIES) & raw["year"].between(2012, 2024),
+        raw["country"].isin(ASIAN_COUNTRIES) & raw["year"].between(1995, 2024),  # update : fixed data window so trends can be backtested
         REQUIRED_COLUMNS,
     ].copy()
 
     df["fossil_dominant"] = df["fossil_share_energy"] > FOSSIL_DOMINANT_THRESHOLD
+    return add_derived_columns(df)
+
+
+def add_derived_columns(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.sort_values(["country", "year"]).reset_index(drop=True)
+    pos = lambda s: s.where(s > 0)
+    df["log_gdp_pc"] = np.log(pos(df["gdp"]) / pos(df["population"]))
+    df["log_population"] = np.log(pos(df["population"]))
+    df["log_energy_pc"] = np.log(pos(df[TARGET]) * 1e9 / pos(df["population"]))
+    for col, out in [("fossil_share_energy", "fossil_change_5y"), ("renewables_share_energy", "renewables_change_5y")]:
+        lagged = df[["country", "year", col]].copy()
+        lagged["year"] = lagged["year"] + 5
+        df = df.merge(lagged.rename(columns={col: f"_{out}_lag"}), on=["country", "year"], how="left")
+        df[out] = df[col] - df[f"_{out}_lag"]
+        df = df.drop(columns=f"_{out}_lag")
     return df.sort_values(["country", "year"]).reset_index(drop=True)
 
 
@@ -51,3 +67,7 @@ def latest_complete_rows(df: pd.DataFrame) -> pd.DataFrame:
         return complete
     idx = complete.groupby("country")["year"].idxmax()
     return complete.loc[idx].sort_values("country").reset_index(drop=True)
+
+
+def latest_year(df: pd.DataFrame, column: str) -> int:
+    return int(df.dropna(subset=[column])["year"].max())
